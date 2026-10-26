@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 import { calculateFarmAnalysis } from './src/services/decisionEngine.ts';
 import { getWeatherForCounty } from './src/services/weatherService.ts';
 import { getMarketPrices } from './src/services/marketDataService.ts';
@@ -328,7 +327,8 @@ app.post('/api/hackathon/scenario', async (req: Request, res: Response) => {
 // ---------------------------------------------------------------------------
 
 async function startServer() {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -356,14 +356,15 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`MkulimaAI server is running on http://0.0.0.0:${PORT}`);
+    console.log(`Smart Shamba 360 server is running on http://0.0.0.0:${PORT}`);
   });
 }
 
 export default app;
 export { app };
 
-if (!process.env.VERCEL) {
+const isDirectRun = !process.env.VERCEL && process.env.NODE_ENV !== 'test';
+if (isDirectRun) {
   startServer();
 }
 

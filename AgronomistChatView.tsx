@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { FarmerProfile, ChatMessage } from '../types/index.ts';
 import { useApp } from '../context/AppContext.tsx';
+import { getClientAgronomistResponse } from '../services/clientAgronomistService.ts';
 
 interface AgronomistChatViewProps {
   farmer: FarmerProfile;
@@ -68,6 +69,8 @@ export const AgronomistChatView: React.FC<AgronomistChatViewProps> = ({ farmer }
     setIsLoading(true);
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
       const res = await fetch('/api/agronomist/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -79,28 +82,33 @@ export const AgronomistChatView: React.FC<AgronomistChatViewProps> = ({ farmer }
             text: m.text,
           })),
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
-      const data = await res.json();
-      if (data.success) {
-        const reply = data.data;
-        const assistantMsg: ChatMessage = {
-          id: reply.id,
-          sender: 'assistant',
-          text: reply.text,
-          timestamp: reply.timestamp,
-          isDemo: reply.isDemo,
-        };
-        setMessages((prev) => [...prev, assistantMsg]);
+      const contentType = res.headers.get('content-type');
+      if (res.ok && contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        if (data.success && data.data) {
+          const reply = data.data;
+          const assistantMsg: ChatMessage = {
+            id: reply.id,
+            sender: 'assistant',
+            text: reply.text,
+            timestamp: reply.timestamp,
+            isDemo: reply.isDemo,
+          };
+          setMessages((prev) => [...prev, assistantMsg]);
+          return;
+        }
       }
+      throw new Error('API unavailable or static host rewrite');
     } catch (err) {
+      const clientFallback = getClientAgronomistResponse(userMsg.text, farmer, language);
       const assistantMsg: ChatMessage = {
-        id: `msg-err-${Date.now()}`,
+        id: `msg-client-${Date.now()}`,
         sender: 'assistant',
-        text:
-          language === 'sw'
-            ? 'Samahani, kumetokea hitilafu ya mtandao wakati wa kuwasiliana na mtaalamu wa kilimo. Tafadhali jaribu tena.'
-            : 'Sorry, a network error occurred while connecting with the agronomist advisor. Please try again.',
+        text: clientFallback.text,
         timestamp: new Date().toISOString(),
         isDemo: true,
       };
