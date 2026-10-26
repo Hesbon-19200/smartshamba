@@ -1,0 +1,6 @@
+{
+  "name": "MkulimaAI",
+  "description": "AI-Powered Farm Decision Engine turning agricultural uncertainty into informed decisions for smallholder farmers in Kenya and beyond.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

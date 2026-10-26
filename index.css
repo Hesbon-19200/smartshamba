@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #2E7D32;
+  --primary-dark: #1B5E20;
+  --primary-light: #4CAF50;
+  --accent: #FF8F00;
+  --bg: #F1F8E9;
+  --card: #FFFFFF;
+  --text: #1B5E20;
+  --text-light: #558B2F;
+  --danger: #C62828;
+  --shadow: 0 4px 14px rgba(46, 125, 50, 0.14);
+}
+
+@keyframes mic-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 24px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+.mic-pulsing {
+  animation: mic-pulse 1.6s infinite ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility Font Scaling */
+html.a11y-font-normal {
+  font-size: 100%;
+}
+
+html.a11y-font-large {
+  font-size: 115%;
+}
+
+html.a11y-font-xlarge {
+  font-size: 130%;
+}
+
+/* High Contrast Mode for Visually Impaired & Seniors (WCAG AAA) */
+html.a11y-high-contrast {
+  color-scheme: light;
+}
+
+html.a11y-high-contrast body {
+  background-color: #f1f5f9 !important;
+  color: #020617 !important;
+}
+
+/* Make card borders crisp and unmistakable */
+html.a11y-high-contrast .border,
+html.a11y-high-contrast .border-slate-100,
+html.a11y-high-contrast .border-slate-200,
+html.a11y-high-contrast .border-slate-300 {
+  border-color: #0f172a !important;
+  border-width: 2px !important;
+}
+
+/* Darken light gray text so people with cataracts, glaucoma or low vision can read easily */
+html.a11y-high-contrast .text-slate-400,
+html.a11y-high-contrast .text-slate-500,
+html.a11y-high-contrast .text-slate-600 {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure buttons stand out sharply */
+html.a11y-high-contrast button {
+  border-width: 2px !important;
+}
+
+/* Enhanced high-visibility focus indicators for keyboard and screen-magnifier navigation */
+*:focus-visible {
+  outline: 3px solid #059669;
+  outline-offset: 2px;
+}
+
+html.a11y-high-contrast *:focus-visible {
+  outline: 4px solid #000000 !important;
+  outline-offset: 3px !important;
+}
+
+/* Smooth motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

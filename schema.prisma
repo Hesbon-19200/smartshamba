@@ -1,0 +1,192 @@
+// Prisma Schema for MkulimaAI
+// PostgreSQL schema modeling smallholder farm profiles, multi-factor decision analyses,
+// crop disease computer vision records, LLM conversations, and environmental snapshots.
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  FARMER
+  AGRIBUSINESS
+  EXTENSION_OFFICER
+  ADMIN
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum DiseaseSeverity {
+  LOW
+  MODERATE
+  SEVERE
+}
+
+model User {
+  id            String             @id @default(uuid())
+  email         String             @unique
+  passwordHash  String
+  name          String
+  phone         String?
+  role          Role               @default(FARMER)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  farms         Farm[]
+  conversations ChatConversation[]
+
+  @@map("users")
+}
+
+model Farm {
+  id              String            @id @default(uuid())
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  county          String
+  subCounty       String
+  town            String?
+  latitude        Float?
+  longitude       Float?
+  sizeAcres       Float
+  soilType        String
+  waterSource     String
+  experienceYears Int?
+  currentCrop     String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  analyses        FarmAnalysis[]
+  diseaseScans    DiseaseAnalysis[]
+
+  @@map("farms")
+}
+
+model FarmAnalysis {
+  id                    String      @id @default(uuid())
+  farmId                String
+  farm                  Farm        @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  targetCrop            String
+  recommendedCrop       String
+  suitabilityScore      Int
+  profitPotentialScore  Int
+  riskLevel             RiskLevel
+  
+  // Financial inputs & outputs (in KES)
+  totalCostKes          Float
+  estimatedYield        Float
+  yieldUnit             String
+  estimatedSellingPrice Float
+  estimatedRevenueKes   Float
+  estimatedProfitKes    Float
+  roiPercent            Float
+  breakEvenYield        Float
+
+  // Risk sub-scores
+  weatherRiskScore      Int
+  diseaseRiskScore      Int
+  marketRiskScore       Int
+  costRiskScore         Int
+
+  explainableAiJson     Json
+  isDemo                Boolean     @default(false)
+  createdAt             DateTime    @default(now())
+
+  predictions           Prediction[]
+
+  @@map("farm_analyses")
+}
+
+model DiseaseAnalysis {
+  id                  String          @id @default(uuid())
+  farmId              String?
+  farm                Farm?           @relation(fields: [farmId], references: [id], onDelete: SetNull)
+  cropType            String
+  imageUrl            String?
+  possibleCondition   String
+  confidencePercent   Float
+  severity            DiseaseSeverity
+  observedIndicators  String[]
+  recommendedActions  String[]
+  preventionTips      String[]
+  provider            String
+  isDemo              Boolean         @default(false)
+  createdAt           DateTime        @default(now())
+
+  @@map("disease_analyses")
+}
+
+model Prediction {
+  id              String        @id @default(uuid())
+  farmAnalysisId  String
+  farmAnalysis    FarmAnalysis  @relation(fields: [farmAnalysisId], references: [id], onDelete: Cascade)
+  modelName       String
+  modelVersion    String
+  metricR2        Float?
+  predictedMetric String
+  predictedValue  Float
+  createdAt       DateTime      @default(now())
+
+  @@map("predictions")
+}
+
+model ChatConversation {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  messages  ChatMessage[]
+
+  @@map("chat_conversations")
+}
+
+model ChatMessage {
+  id             String           @id @default(uuid())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String           // "user" | "assistant"
+  content        String           @db.Text
+  isDemo         Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+
+  @@map("chat_messages")
+}
+
+model WeatherSnapshot {
+  id            String   @id @default(uuid())
+  county        String
+  temperatureC  Float
+  humidityPct   Int
+  rainProbPct   Int
+  condition     String
+  forecastJson  Json
+  isDemo        Boolean  @default(false)
+  recordedAt    DateTime @default(now())
+
+  @@map("weather_snapshots")
+}
+
+model MarketSnapshot {
+  id              String   @id @default(uuid())
+  crop            String
+  marketLocation  String
+  pricePerUnitKes Float
+  unit            String
+  trend           String
+  changePct       Float
+  isDemo          Boolean  @default(false)
+  recordedAt      DateTime @default(now())
+
+  @@map("market_snapshots")
+}

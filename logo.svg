@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" fill="none">
+  <!-- Clean White Background -->
+  <rect width="600" height="900" fill="#ffffff" />
+
+  <defs>
+    <style>
+      .circuit-line {
+        stroke: #ffffff;
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .circuit-node {
+        fill: #15532E;
+        stroke: #ffffff;
+        stroke-width: 5.5;
+      }
+      .brand-title {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 64px;
+        font-weight: 700;
+        fill: #134E2C;
+        letter-spacing: -0.5px;
+        text-anchor: middle;
+      }
+    </style>
+  </defs>
+
+  <!-- Green Leaf Body (Centered in upper area) -->
+  <g transform="translate(0, 40)">
+    <path
+      d="M 300,120
+         C 230,200 156,305 156,420
+         C 156,535 228,615 300,670
+         C 372,615 444,535 444,420
+         C 444,305 370,200 300,120 Z"
+      fill="#15532E"
+    />
+
+    <!-- Central Trunk Line -->
+    <line x1="300" y1="650" x2="300" y2="234" class="circuit-line" />
+
+    <!-- Central Top Node -->
+    <circle cx="300" cy="234" r="12" class="circuit-node" />
+
+    <!-- Pair 1: Top Diagonals -->
+    <line x1="300" y1="300" x2="258" y2="258" class="circuit-line" />
+    <circle cx="258" cy="258" r="11" class="circuit-node" />
+    <line x1="300" y1="300" x2="342" y2="258" class="circuit-line" />
+    <circle cx="342" cy="258" r="11" class="circuit-node" />
+
+    <!-- Pair 2: Upper Mid Diagonals -->
+    <line x1="300" y1="358" x2="230" y2="288" class="circuit-line" />
+    <circle cx="230" cy="288" r="11" class="circuit-node" />
+    <line x1="300" y1="358" x2="370" y2="288" class="circuit-line" />
+    <circle cx="370" cy="288" r="11" class="circuit-node" />
+
+    <!-- Pair 3: Middle stepped circuit branches -->
+    <path d="M 300,412 L 258,370 L 258,335 L 205,335" class="circuit-line" />
+    <circle cx="205" cy="335" r="11" class="circuit-node" />
+    <path d="M 300,412 L 342,370 L 342,335 L 395,335" class="circuit-line" />
+    <circle cx="395" cy="335" r="11" class="circuit-node" />
+
+    <!-- Pair 4: Wide Middle branches -->
+    <path d="M 300,466 L 268,434 L 268,390 L 190,390" class="circuit-line" />
+    <circle cx="190" cy="390" r="11" class="circuit-node" />
+    <path d="M 300,466 L 332,434 L 332,390 L 410,390" class="circuit-line" />
+    <circle cx="410" cy="390" r="11" class="circuit-node" />
+
+    <!-- Pair 5: Lower stepped branches -->
+    <path d="M 300,522 L 260,482 L 232,482 L 205,455 L 180,455" class="circuit-line" />
+    <circle cx="180" cy="455" r="11" class="circuit-node" />
+    <path d="M 300,522 L 340,482 L 368,482 L 395,455 L 420,455" class="circuit-line" />
+    <circle cx="420" cy="455" r="11" class="circuit-node" />
+
+    <!-- Pair 6: Lower diagonal branches -->
+    <path d="M 300,574 L 252,526 L 210,526" class="circuit-line" />
+    <circle cx="210" cy="526" r="11" class="circuit-node" />
+    <path d="M 300,574 L 348,526 L 390,526" class="circuit-line" />
+    <circle cx="390" cy="526" r="11" class="circuit-node" />
+
+    <!-- Pair 7: Bottom outer contour tracks -->
+    <path d="M 285,648 L 242,605 L 242,572 L 200,572" class="circuit-line" />
+    <circle cx="200" cy="572" r="11" class="circuit-node" />
+    <path d="M 315,648 L 358,605 L 358,572 L 400,572" class="circuit-line" />
+    <circle cx="400" cy="572" r="11" class="circuit-node" />
+  </g>
+
+  <!-- "Mkulima AI" Wordmark -->
+  <text x="300" y="785" class="brand-title">Mkulima AI</text>
+</svg>

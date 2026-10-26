@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Rounded White / Transparent Canvas -->
+  <defs>
+    <style>
+      .circuit-line {
+        stroke: #ffffff;
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .circuit-node {
+        fill: #15532E;
+        stroke: #ffffff;
+        stroke-width: 5;
+      }
+    </style>
+  </defs>
+
+  <!-- Green Leaf Body -->
+  <path
+    d="M 256,44
+       C 202,106 142,185 142,274
+       C 142,364 198,426 256,468
+       C 314,426 370,364 370,274
+       C 370,185 310,106 256,44 Z"
+    fill="#15532E"
+  />
+
+  <!-- Central Trunk Line with notch at bottom -->
+  <line x1="256" y1="452" x2="256" y2="132" class="circuit-line" />
+
+  <!-- Central Top Node -->
+  <circle cx="256" cy="132" r="9.5" class="circuit-node" />
+
+  <!-- Pair 1: Top Diagonals -->
+  <line x1="256" y1="184" x2="222" y2="150" class="circuit-line" />
+  <circle cx="222" cy="150" r="8.5" class="circuit-node" />
+  <line x1="256" y1="184" x2="290" y2="150" class="circuit-line" />
+  <circle cx="290" cy="150" r="8.5" class="circuit-node" />
+
+  <!-- Pair 2: Upper Mid Diagonals -->
+  <line x1="256" y1="228" x2="200" y2="172" class="circuit-line" />
+  <circle cx="200" cy="172" r="8.5" class="circuit-node" />
+  <line x1="256" y1="228" x2="312" y2="172" class="circuit-line" />
+  <circle cx="312" cy="172" r="8.5" class="circuit-node" />
+
+  <!-- Pair 3: Middle stepped circuit branches -->
+  <!-- Left branch 3 -->
+  <path d="M 256,270 L 222,236 L 222,208 L 180,208" class="circuit-line" />
+  <circle cx="180" cy="208" r="8.5" class="circuit-node" />
+  <!-- Right branch 3 -->
+  <path d="M 256,270 L 290,236 L 290,208 L 332,208" class="circuit-line" />
+  <circle cx="332" cy="208" r="8.5" class="circuit-node" />
+
+  <!-- Pair 4: Wide Middle branches -->
+  <!-- Left branch 4 -->
+  <path d="M 256,312 L 230,286 L 230,250 L 168,250" class="circuit-line" />
+  <circle cx="168" cy="250" r="8.5" class="circuit-node" />
+  <!-- Right branch 4 -->
+  <path d="M 256,312 L 282,286 L 282,250 L 344,250" class="circuit-line" />
+  <circle cx="344" cy="250" r="8.5" class="circuit-node" />
+
+  <!-- Pair 5: Lower stepped branches -->
+  <!-- Left branch 5 -->
+  <path d="M 256,356 L 224,324 L 202,324 L 180,302 L 160,302" class="circuit-line" />
+  <circle cx="160" cy="302" r="8.5" class="circuit-node" />
+  <!-- Right branch 5 -->
+  <path d="M 256,356 L 288,324 L 310,324 L 332,302 L 352,302" class="circuit-line" />
+  <circle cx="352" cy="302" r="8.5" class="circuit-node" />
+
+  <!-- Pair 6: Lower downward diagonal branches -->
+  <!-- Left branch 6 -->
+  <path d="M 256,396 L 218,358 L 184,358" class="circuit-line" />
+  <circle cx="184" cy="358" r="8.5" class="circuit-node" />
+  <!-- Right branch 6 -->
+  <path d="M 256,396 L 294,358 L 328,358" class="circuit-line" />
+  <circle cx="328" cy="358" r="8.5" class="circuit-node" />
+
+  <!-- Pair 7: Bottom outer contour tracks -->
+  <!-- Left bottom trace -->
+  <path d="M 244,450 L 210,416 L 210,392 L 176,392" class="circuit-line" />
+  <circle cx="176" cy="392" r="8.5" class="circuit-node" />
+  <!-- Right bottom trace -->
+  <path d="M 268,450 L 302,416 L 302,392 L 336,392" class="circuit-line" />
+  <circle cx="336" cy="392" r="8.5" class="circuit-node" />
+</svg>
